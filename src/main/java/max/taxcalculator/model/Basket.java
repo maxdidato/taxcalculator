@@ -1,5 +1,6 @@
 package max.taxcalculator.model;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,18 +12,21 @@ public class Basket {
         items = new ArrayList<>();
     }
 
-    public void addItem(int quantity, Item item) {
+    public void addItem(double quantity, Item item) {
+        if (quantity < 1) {
+            throw new InvalidParameterException("Quantity must be a positive number");
+        }
         BasketItem basketItem = new BasketItem(quantity, item);
-        int i = this.items.indexOf(basketItem);
-        if (i>=0){
-            basketItem = items.get(i);
-            basketItem.setQuantity(quantity+basketItem.getQuantity());
-        }else {
+        int index = this.items.indexOf(basketItem);
+        if (index >= 0) {
+            basketItem = items.get(index);
+            basketItem.setQuantity(quantity + basketItem.getQuantity());
+        } else {
             this.items.add(basketItem);
         }
     }
 
-    public List<BasketItem> getItems(){
+    public List<BasketItem> getItems() {
         return items;
     }
 }

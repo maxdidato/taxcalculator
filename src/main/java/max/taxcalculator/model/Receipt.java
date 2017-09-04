@@ -16,9 +16,6 @@ public class Receipt {
     public Receipt(){
         items = new ArrayList<>();
     }
-    public void addItem(int quantity, Item item) {
-
-    }
 
     public void calculate(Basket basket) {
         basket.getItems().forEach(i -> items.add(new ReceiptRow()

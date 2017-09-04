@@ -23,9 +23,6 @@ public class ReceiptTest {
                 new ReceiptRow().withDescription("Item").withQuantity(2),
                 new ReceiptRow().withDescription("Item1").withQuantity(2),
                 new ReceiptRow().withDescription("Item2").withQuantity(2))));
-
-
-
     }
 
 }
