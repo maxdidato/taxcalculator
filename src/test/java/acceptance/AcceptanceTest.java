@@ -46,7 +46,7 @@ public class AcceptanceTest {
         ReceiptRow receiptRow1 = new ReceiptRow(1, "Bottle of headache pills", 4.15);
         ReceiptRow receiptRow2 = new ReceiptRow(1, "Box of pins", 13.25);
         ReceiptRow receiptRow3 = new ReceiptRow(1, "Music CD", 18.99);
-        receipt.calculate();
+        receipt.calculate(basket);
         assertThat(receipt.getItems(), is(Arrays.asList(receiptRow, receiptRow1, receiptRow2,receiptRow3)));
         assertThat(receipt.getSalesTaxes(), is(9.60));
         assertThat(receipt.getTotal(), is(60.98));
