@@ -3,6 +3,7 @@ package max.taxcalculator.model;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -12,11 +13,16 @@ public class Receipt {
     private double salesTaxes;
     private double total;
 
+    public Receipt(){
+        items = new ArrayList<>();
+    }
     public void addItem(int quantity, Item item) {
 
     }
 
     public void calculate(Basket basket) {
-
+        basket.getItems().forEach(i -> items.add(new ReceiptRow()
+                .withDescription(i.getItem().getDescription())
+                .withQuantity(i.getQuantity())));
     }
 }

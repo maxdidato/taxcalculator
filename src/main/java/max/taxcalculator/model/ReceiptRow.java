@@ -1,15 +1,17 @@
 package max.taxcalculator.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import lombok.experimental.Wither;
 
 @Data
 @EqualsAndHashCode
+@NoArgsConstructor
+@Wither
 @AllArgsConstructor
 public class ReceiptRow {
-    private int quantity;
+
+    private double quantity;
     private String description;
     private double total;
 }
