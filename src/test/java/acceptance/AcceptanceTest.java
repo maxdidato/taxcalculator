@@ -1,9 +1,6 @@
 package acceptance;
 
-import max.taxcalculator.model.Basket;
-import max.taxcalculator.model.Item;
-import max.taxcalculator.model.Receipt;
-import max.taxcalculator.model.ReceiptRow;
+import max.taxcalculator.model.*;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -18,7 +15,7 @@ public class AcceptanceTest {
 
     @Test
     public void it_adds_items_to_the_receipt_and_calculate_the_taxation_adding_a_fix_amount_for_cd() {
-        Receipt receipt = new Receipt();
+        Receipt receipt = new Receipt(new TaxCalculator());
         Basket basket = new Basket();
         basket.addItem(1, new Item(BOOK, "A Book", new BigDecimal(29.49)));
         basket.addItem(1, new Item(CD, "Music CD", new BigDecimal(15.99)));
@@ -26,7 +23,7 @@ public class AcceptanceTest {
         ReceiptRow receiptRow = new ReceiptRow(1, "A Book", 34.69);
         ReceiptRow receiptRow1 = new ReceiptRow(1, "Music CD", 20.04);
         ReceiptRow receiptRow2 = new ReceiptRow(1, "Chocolate Snack", 0.90);
-        receipt.calculate(basket);
+        receipt.generate(basket);
         assertThat(receipt.getItems(), is(Arrays.asList(receiptRow, receiptRow1, receiptRow2)));
         assertThat(receipt.getSalesTaxes(), is(9.40));
         assertThat(receipt.getTotal(), is(55.63));
@@ -36,7 +33,7 @@ public class AcceptanceTest {
 
     @Test
     public void it_adds_items_to_the_receipt_and_calculate_the_taxation_applying_an_examption_for_medical_items() {
-        Receipt receipt = new Receipt();
+        Receipt receipt = new Receipt(new TaxCalculator());
         Basket basket = new Basket();
         basket.addItem(1, new Item(OFF_LICENCE, "Bottle of wine", new BigDecimal(20.99)));
         basket.addItem(1, new Item(MEDICAL, "Bottle of headache pills", new BigDecimal(4.15)));
@@ -46,7 +43,7 @@ public class AcceptanceTest {
         ReceiptRow receiptRow1 = new ReceiptRow(1, "Bottle of headache pills", 4.15);
         ReceiptRow receiptRow2 = new ReceiptRow(1, "Box of pins", 13.25);
         ReceiptRow receiptRow3 = new ReceiptRow(1, "Music CD", 18.99);
-        receipt.calculate(basket);
+        receipt.generate(basket);
         assertThat(receipt.getItems(), is(Arrays.asList(receiptRow, receiptRow1, receiptRow2,receiptRow3)));
         assertThat(receipt.getSalesTaxes(), is(9.60));
         assertThat(receipt.getTotal(), is(60.98));
