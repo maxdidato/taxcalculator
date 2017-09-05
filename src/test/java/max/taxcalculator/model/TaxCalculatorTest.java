@@ -2,8 +2,6 @@ package max.taxcalculator.model;
 
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.mockito.Mockito;
-import org.mockito.internal.InOrderImpl;
 
 import java.math.BigDecimal;
 
@@ -14,7 +12,6 @@ import static max.taxcalculator.model.ItemType.GENERAL;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 public class TaxCalculatorTest {
@@ -35,33 +32,6 @@ public class TaxCalculatorTest {
         BasketItem basketItem = new BasketItem().withQuantity(2).withItem(
                 new Item().withDescription("A CD").withType(CD).withPrice(new BigDecimal(100)));
         assertThat(taxCalculator.calculate(basketItem), is(new BigDecimal(12)));
-    }
-
-    @Test
-    public void if_the_item_doesnt_match_any_rule_it_returns_0(){
-        TaxRule taxRule = new TaxRule().withTax_percentage(10).withTypesApplied(singletonList(CD));
-        TaxCalculator taxCalculator = new TaxCalculator(singletonList(taxRule));
-        BasketItem basketItem = new BasketItem().withQuantity(2).withItem(
-                new Item().withDescription("A CD").withType(GENERAL).withPrice(new BigDecimal(100)));
-        assertThat(taxCalculator.calculate(basketItem), is(new BigDecimal(0)));
-    }
-
-    @Test
-    public void if_the_additional_charge_is_0_nothing_is_added(){
-        TaxRule taxRule = new TaxRule().withTax_percentage(10).withTypesApplied(singletonList(CD)).withAdditional_charge(0);
-        TaxCalculator taxCalculator = new TaxCalculator(singletonList(taxRule));
-        BasketItem basketItem = new BasketItem().withQuantity(2).withItem(
-                new Item().withDescription("A CD").withType(CD).withPrice(new BigDecimal(100)));
-        assertThat(taxCalculator.calculate(basketItem), is(new BigDecimal(10)));
-    }
-
-    @Test
-    public void if_tax_amount_is_0_then_0_is_returned(){
-        TaxRule taxRule = new TaxRule().withTax_percentage(0).withTypesApplied(singletonList(CD));
-        TaxCalculator taxCalculator = new TaxCalculator(singletonList(taxRule));
-        BasketItem basketItem = new BasketItem().withQuantity(2).withItem(
-                new Item().withDescription("A CD").withType(CD).withPrice(new BigDecimal(100)));
-        assertThat(taxCalculator.calculate(basketItem), is(new BigDecimal(0)));
     }
 
     @Test
