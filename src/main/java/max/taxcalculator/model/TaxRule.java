@@ -7,6 +7,9 @@ import lombok.experimental.Wither;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+
+import static max.taxcalculator.model.ItemType.ALL;
 
 @Data
 @AllArgsConstructor
@@ -20,13 +23,16 @@ public class TaxRule {
     private List<ItemType> typesApplied;
 
 
-    public BigDecimal calculate(Item item) {
-        BigDecimal taxTotal = new BigDecimal(0);
-        if (typesApplied.contains(item.getType())) {
-            BigDecimal pricePlusTaxes = item.getPrice().multiply(new BigDecimal(tax_percentage)).divide(new BigDecimal(100));
-            pricePlusTaxes = pricePlusTaxes.add(new BigDecimal(additional_charge));
-            taxTotal = pricePlusTaxes.min(item.getPrice());
+    public Optional<BigDecimal> calculate(Item item) {
+        BigDecimal taxTotal = null;
+        if (typesApplied.contains(ALL) || typesApplied.contains(item.getType())) {
+            taxTotal = calculatePricePlusTaxes(item.getPrice()).min(item.getPrice());
         }
-        return taxTotal;
+        return Optional.ofNullable(taxTotal);
+    }
+
+    private BigDecimal calculatePricePlusTaxes(BigDecimal price) {
+        BigDecimal pricePlusTaxes = price.multiply(new BigDecimal(tax_percentage)).divide(new BigDecimal(100));
+        return pricePlusTaxes.add(new BigDecimal(additional_charge));
     }
 }

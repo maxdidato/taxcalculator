@@ -4,6 +4,9 @@ package max.taxcalculator.model;
 import lombok.*;
 import lombok.experimental.Wither;
 
+import java.math.BigDecimal;
+import java.util.function.BiConsumer;
+
 @Data
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -13,5 +16,6 @@ public class ReceiptRow {
 
     private double quantity;
     private String description;
-    private double total;
+    private BigDecimal total;
+    private BigDecimal taxTotal;
 }
