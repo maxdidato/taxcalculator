@@ -1,14 +1,16 @@
 package acceptance;
 
+import max.taxcalculator.Basket;
+import max.taxcalculator.Receipt;
 import max.taxcalculator.model.*;
+import max.taxcalculator.strategy.TaxCalculator;
+import max.taxcalculator.strategy.TaxRule;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static java.math.BigDecimal.ROUND_HALF_EVEN;
@@ -24,9 +26,9 @@ public class AcceptanceTest {
     @Before
     public void setUp() {
         List<TaxRule> rules = new ArrayList();
-        rules.add(new TaxRule().withTypesApplied(singletonList(ALL)).withPriority(2).withTax_percentage(17.5));
-        rules.add(new TaxRule().withTypesApplied(singletonList(MEDICAL)).withPriority(1).withTax_percentage(0));
-        rules.add(new TaxRule().withTypesApplied(singletonList(CD)).withPriority(1).withTax_percentage(17.5).withAdditional_charge(1.25));
+        rules.add(new TaxRule().withTypesApplied(singletonList(ALL)).withPriority(2).withTaxPercentage(17.5));
+        rules.add(new TaxRule().withTypesApplied(singletonList(MEDICAL)).withPriority(1).withTaxPercentage(0));
+        rules.add(new TaxRule().withTypesApplied(singletonList(CD)).withPriority(1).withTaxPercentage(17.5).withAdditionalCharge(1.25));
         taxCalculator = new TaxCalculator(rules);
     }
 
@@ -48,7 +50,7 @@ public class AcceptanceTest {
                 new BigDecimal(0.15).setScale(2, ROUND_HALF_EVEN));
         receipt.generate();
         assertThat(receipt.getItems(), is(Arrays.asList(receiptRow, receiptRow1, receiptRow2)));
-        assertThat(receipt.getSalesTaxes(), is(new BigDecimal(9.40).setScale(2, ROUND_HALF_EVEN)));
+        assertThat(receipt.getTotalTaxes(), is(new BigDecimal(9.40).setScale(2, ROUND_HALF_EVEN)));
         assertThat(receipt.getTotal(), is(new BigDecimal(55.63).setScale(2, ROUND_HALF_EVEN)));
 
 
@@ -76,7 +78,7 @@ public class AcceptanceTest {
                 new BigDecimal(3.90).setScale(2, ROUND_HALF_EVEN));
         receipt.generate();
         assertThat(receipt.getItems(), is(Arrays.asList(receiptRow, receiptRow1, receiptRow2,receiptRow3)));
-        assertThat(receipt.getSalesTaxes(), is(new BigDecimal(9.60).setScale(2, ROUND_HALF_EVEN)));
+        assertThat(receipt.getTotalTaxes(), is(new BigDecimal(9.60).setScale(2, ROUND_HALF_EVEN)));
         assertThat(receipt.getTotal(), is(new BigDecimal(60.98).setScale(2, ROUND_HALF_EVEN)));
 
 

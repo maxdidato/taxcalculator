@@ -1,5 +1,8 @@
-package max.taxcalculator.model;
+package unit;
 
+import max.taxcalculator.Basket;
+import max.taxcalculator.model.BasketItem;
+import max.taxcalculator.model.Item;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

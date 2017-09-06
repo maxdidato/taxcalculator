@@ -1,4 +1,6 @@
-package max.taxcalculator.model;
+package max.taxcalculator.strategy;
+
+import max.taxcalculator.model.BasketItem;
 
 import java.math.BigDecimal;
 
